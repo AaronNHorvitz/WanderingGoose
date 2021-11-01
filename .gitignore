@@ -1,0 +1,7 @@
+# Ignore python bytecode files and pycache folders. 
+*.pyc 
+__pycache__/
+
+# Ignoring test.py because it's a test file (scratch stuff)
+test.py
+

@@ -45,4 +45,4 @@ def basic_bivariate_plot(x, y, figsize=(5, 5)) -> plt.Axes:
     ax.fill_between(x, y_est - y_err, y_est + y_err, alpha=0.2)
     ax.plot(x, y, "o", color="tab:brown")
 
-    return
+    return ax

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def basic_bivariate_plot(x, y, figsize=(5, 5)) -> plt.Axes:
+def basic_bivariate_plot(x, y, title: str = None, figsize=(5, 5)) -> plt.Axes:
     """
     Creates a basic bivariate plot with confidence limits.
 
@@ -18,6 +18,9 @@ def basic_bivariate_plot(x, y, figsize=(5, 5)) -> plt.Axes:
         columns represent separate data sets).
 
         These arguments cannot be passed as keywords.
+
+    title : str
+        The title for the chart if desired
 
     figsize : tuple of (width, height)
 
@@ -44,5 +47,9 @@ def basic_bivariate_plot(x, y, figsize=(5, 5)) -> plt.Axes:
     ax.plot(x, y_est, "-")
     ax.fill_between(x, y_est - y_err, y_est + y_err, alpha=0.2)
     ax.plot(x, y, "o", color="tab:brown")
+
+    # Add title
+    if title:
+        ax.set_title(title)
 
     return ax

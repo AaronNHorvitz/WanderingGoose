@@ -5,3 +5,5 @@ __pycache__/
 # Ignoring test.py because it's a test file (scratch stuff)
 test.py
 
+# Ignore vscode local configuration (if used)
+.vscode/

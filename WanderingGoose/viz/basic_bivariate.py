@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def basic_bivariate_plot(
-    x, y, title: str = None, figsize=(5, 5), show_correlation: bool = False,
+    x, y, title: str = None, figsize=(5, 5), show_correlation: bool = True,
 ) -> plt.Axes:
     """
     Creates a basic bivariate plot with confidence limits.

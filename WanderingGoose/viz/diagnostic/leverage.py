@@ -1,7 +1,7 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-from IPython.display import display
+import pandas as pd
 import statsmodels.api as sm
+from IPython.display import display
 
 
 def make_leverage_plots(fitted_ols_model):

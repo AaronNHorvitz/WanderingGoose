@@ -1,6 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from WanderingGoose.stats.smoothers import smooth_lowess
 
@@ -98,27 +98,6 @@ def marginal_model_plots(y, yhat, X, smoothness=0.5):
         y_max = y.max()
         y_min = y.min()
 
-        #         if num_rows == 1:
-        #             print('THIS SHIT:' num_columns, num_rows)
-
-        #             if num_columns == 1:
-        #                 fig, ax = plt.subplots(figsize=(num_columns*10,num_rows*10, squeeze=False), dpi = 200)
-
-        #             ax[col].set_title(column_name, fontsize = 40)
-        #             ax[col].scatter(data['x'], data['y'], s = 1, color = 'black', alpha = 0.9)
-        #             ax[col].scatter(data['x'], data['yhat'], s = 1, color = 'blue', alpha = 0.9)
-
-        #             ax[col].plot(data['x_smooth'], data['y_smooth'], color = 'black', linestyle = '-', linewidth = 5.5, alpha = 0.55, label = 'Actual')
-        #             ax[col].plot(data['x_smooth'], data['yhat_smooth'], color = 'blue', linestyle = '--', linewidth = 5.5, alpha = 0.95, label = 'Predicted')
-
-        #             ax[col].set_ylabel('y',  rotation=0, fontsize = 20, labelpad=20)
-        #             ax[col].set_xlabel('Coeff {}'.format(coeff_num), fontsize = 20, labelpad=20)
-
-        #             ax[col].set_xlim(x_min,x_max)
-        #             ax[col].set_ylim(y_min,y_max)
-        #             ax[col].legend(fontsize = 24, loc = 1)
-
-        #        else:
         if num_rows == 1 and num_columns == 1:
 
             ax = np.array([[ax]])

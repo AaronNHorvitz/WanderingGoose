@@ -1,13 +1,10 @@
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
-from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectFromModel
-
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-
 from sklearn.linear_model import ElasticNetCV, LinearRegression
+from sklearn.model_selection import train_test_split
 
 from WanderingGoose.stats.regression.least_squares import ols_regression
 

@@ -26,8 +26,8 @@ def all_possible_models(
 ):
     min_cols = 1
     max_cols = len(X.columns)
-    # if w is false, then adjust the all models so it works like a an OLS, not a WLS
 
+    # if w is false, then adjust the all models so it works like a an OLS, not a WLS
     if w == False:
 
         X["weight"] = 1

@@ -1,3 +1,16 @@
+import numpy as np
+import pandas as pd
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+from sklearn.model_selection import train_test_split
+from sklearn.feature_selection import SelectFromModel
+from sklearn.linear_model import LassoCV, LinearRegression
+
+from WanderingGoose.stats.regression.least_squares import ols_regression
+
+
 def lasso_selector(X, y, test_size=0.40, random_state=42):
 
     # perform the lasso using SelectFromModel with the esimator equal to LassoCV
@@ -19,6 +32,7 @@ def lasso_selector(X, y, test_size=0.40, random_state=42):
     lasso_features_list = lasso_features.feature.to_list()
 
     print("\n---TRAIN SET-----\n\n")
+
     ols_regression(
         y=y_train,
         X=X_train[lasso_features_list],
@@ -48,7 +62,7 @@ def lasso_selector(X, y, test_size=0.40, random_state=42):
         ax2 = plt.subplot2grid((40, 10), (20, 0), rowspan=14, colspan=8)
 
         fmt = "{x:,.0f}"
-        tick = ticker.StrMethodFormatter(fmt)
+        tick = mpl.ticker.StrMethodFormatter(fmt)
         residuals_limit = max(min(results), max(results))
 
         ax1.set_title(
@@ -87,7 +101,6 @@ def lasso_selector(X, y, test_size=0.40, random_state=42):
         ax2.xaxis.set_major_formatter(tick)
         ax2.set_xlabel("Predicted By Trained Model", fontsize=14)
         ax2.set_ylabel("\nResiduals From Test Values", fontsize=14)
-        # ax2.set_ylim(-residuals_limit*1.10, residuals_limit*1.10)
         ax2.tick_params(axis="x", rotation=35)
         ax2.legend(loc=2)
 

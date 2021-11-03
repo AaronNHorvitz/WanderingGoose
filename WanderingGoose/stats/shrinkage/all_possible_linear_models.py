@@ -11,7 +11,7 @@ from WanderingGoose.stats.tests.multicollinearity.vifs import get_vifs
 from WanderingGoose.stats.regression.least_squares import wls_regression
 
 
-def all_possible_models(
+def all_possible_linear_models(
     y,
     X,
     w=False,

@@ -5,14 +5,14 @@ from IPython.display import display
 
 
 def make_wls_diagnostic_plots(results: pd.DataFrame):
-    '''
+    """
     Make Weighted Least Squares diagnostic plots
 
     Params
     ------
     results : DataFrame
         Results object created by calling `get_wls_results()`
-    '''
+    """
     title = pd.DataFrame()
     s = title.style.set_properties(**{"text-align": "left"})
     s = s.set_caption("Diagnostic Plots").set_table_styles(

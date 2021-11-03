@@ -2,7 +2,8 @@ import numpy as np
 
 import statsmodels.api as sm
 
-def test_ARIMA(y:np.array, params:tuple, penalty_criteria:str = 'BIC')-> float:
+
+def test_ARIMA(y: np.array, params: tuple, penalty_criteria: str = "BIC") -> float:
     """
     Measures penalty term used to fit an Autoregressive Integrated Moving Average (ARIMA) model
     
@@ -24,24 +25,29 @@ def test_ARIMA(y:np.array, params:tuple, penalty_criteria:str = 'BIC')-> float:
     
     """
     try:
-        model_fit = sm.tsa.arima.ARIMA(endog=y, order=params,enforce_invertibility=True).fit()
+        model_fit = sm.tsa.arima.ARIMA(
+            endog=y, order=params, enforce_invertibility=True
+        ).fit()
     except:
-        print(f'The params: {params} failed to fit the ARIMA. Returning np.inf value.')
+        print(f"The params: {params} failed to fit the ARIMA. Returning np.inf value.")
         return np.inf
 
-
-    if penalty_criteria=='BIC':            # Bayes Information Criterion (BIC)
-        return model_fit.bic 
-    elif penalty_criteria=='AIC':          # Akaike Information Criterion (AIC)
+    if penalty_criteria == "BIC":  # Bayes Information Criterion (BIC)
+        return model_fit.bic
+    elif penalty_criteria == "AIC":  # Akaike Information Criterion (AIC)
         return model_fit.aic
-    elif penalty_criteria=='AICc':         # Akaike Information Criterion with small sample correction (AICc)
+    elif (
+        penalty_criteria == "AICc"
+    ):  # Akaike Information Criterion with small sample correction (AICc)
         return model_fit.aicc
-    elif penalty_criteria=='HQIC':         # Hannan-Quinn Information Criterion (HQIC)
+    elif penalty_criteria == "HQIC":  # Hannan-Quinn Information Criterion (HQIC)
         return model_fit.hqic
-    elif penalty_criteria=='SSE':          # Sum of squared errors (SSE)
-        return model_fit.sse 
-    elif penalty_criteria=='MSE':          # Mean squared error (MSE)
+    elif penalty_criteria == "SSE":  # Sum of squared errors (SSE)
+        return model_fit.sse
+    elif penalty_criteria == "MSE":  # Mean squared error (MSE)
         return model_fit.mse
-    else: 
-        raise Exception("Proper penalty_criteria was not selected to measure the model.\n\
-        It needs to be either 'BIC', 'AIC', 'AICc', 'HQIC', 'SSE', or 'MSE'.")
+    else:
+        raise Exception(
+            "Proper penalty_criteria was not selected to measure the model.\n\
+        It needs to be either 'BIC', 'AIC', 'AICc', 'HQIC', 'SSE', or 'MSE'."
+        )

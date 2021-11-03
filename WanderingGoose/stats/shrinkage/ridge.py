@@ -9,6 +9,7 @@ from sklearn.linear_model import RidgeCV, LinearRegression
 
 from WanderingGoose.stats.regression.least_squares import ols_regression
 
+
 def ridge_selector(X, y, test_size=0.40, random_state=42):
 
     # Perform the Ridge using SelectFromModel with the esimator equal to RidgeCV

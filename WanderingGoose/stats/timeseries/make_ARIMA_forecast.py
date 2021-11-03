@@ -3,13 +3,14 @@ import numpy as np
 
 import statsmodels.api as sm
 
+
 def generate_ARIMA_forecast(
-    y:pd.Series, 
-    params:tuple, 
-    forecast_length:int, 
-    lookback_window:int=100, 
-    allow_negative_values:bool=True
-    )->np.array:
+    y: pd.Series,
+    params: tuple,
+    forecast_length: int,
+    lookback_window: int = 100,
+    allow_negative_values: bool = True,
+) -> np.array:
 
     """
     Generates a forecast of a given forecast_length based on the best parameters (p,d,q) to fit an ARIMA model with, the length
@@ -29,7 +30,9 @@ def generate_ARIMA_forecast(
     """
 
     # Slice initial values back to the lookback window
-    y_train = y.iloc[-lookback_window:,]
+    y_train = y.iloc[
+        -lookback_window:,
+    ]
     y_train = np.array(y_train)
 
     # Log transform to prevent negative values and first difference the values
@@ -39,21 +42,27 @@ def generate_ARIMA_forecast(
     last_val = y_train[-1]
     y_train = np.diff(y_train)
 
-    # Rebuild the ideal model based on the params and forecast out to the forecast length. 
-    model_fit = sm.tsa.arima.ARIMA(endog=y_train, order=params, enforce_invertibility=True).fit()
-    forecast = model_fit.forecast(steps = forecast_length)
+    # Rebuild the ideal model based on the params and forecast out to the forecast length.
+    model_fit = sm.tsa.arima.ARIMA(
+        endog=y_train, order=params, enforce_invertibility=True
+    ).fit()
+    forecast = model_fit.forecast(steps=forecast_length)
 
     # Retransform values
-    forecast = np.insert(forecast,0, last_val)  # adding in last the last recorded actual value as an anchor to the 
-                                                # the cum sum and log transform process to the forecast. This should
-                                                # make the forecast 1 value too long, since the first forecast value
-                                                # will be an actual value. 
+    forecast = np.insert(
+        forecast, 0, last_val
+    )  # adding in last the last recorded actual value as an anchor to the
+    # the cum sum and log transform process to the forecast. This should
+    # make the forecast 1 value too long, since the first forecast value
+    # will be an actual value.
     forecast = np.cumsum(forecast)
 
     # Reverse Log transform if preventing negative values
     if not allow_negative_values:
         forecast = np.expm1(forecast)
 
-    forecast = np.delete(forecast, 0)           # delete the first forecast value so the forecast conforms to the proper length. 
+    forecast = np.delete(
+        forecast, 0
+    )  # delete the first forecast value so the forecast conforms to the proper length.
 
     return forecast

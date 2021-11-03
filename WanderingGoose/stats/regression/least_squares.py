@@ -77,6 +77,7 @@ def beautify_analysis_of_variance(analysis_of_variance):
 
     return s
 
+
 def get_linear_model_anova(fitted_ols_model):
     # TODO: Should this be moved to tests?
     # TODO: is `fitted_ols_model` misleading?
@@ -114,6 +115,7 @@ def get_linear_model_anova(fitted_ols_model):
 
     return analysis_of_variance, analysis_of_variance_dict
 
+
 def beautify_summary_of_fit(summary_of_fit):
     # TODO: this needs to be refactored into a general report / display view for any regression method
 
@@ -138,6 +140,7 @@ def beautify_summary_of_fit(summary_of_fit):
 
     return s
 
+
 def get_wls_model(X, y, w, add_intercept=True):
 
     X = sm.add_constant(X) if add_intercept == True else X
@@ -145,6 +148,7 @@ def get_wls_model(X, y, w, add_intercept=True):
     fitted_wls_model = sm.WLS(y, X, weights=w).fit()
 
     return wls_model, fitted_wls_model
+
 
 def get_wls_results(y, wls_model, fitted_wls_model):
 
@@ -163,6 +167,7 @@ def get_wls_results(y, wls_model, fitted_wls_model):
     results["cooks_distance"] = influence.cooks_distance[0]  # cook's distance
 
     return results
+
 
 def get_summary_of_fit(X, y, fitted_ols_model, add_intercept):
 
@@ -195,6 +200,7 @@ def get_summary_of_fit(X, y, fitted_ols_model, add_intercept):
 
     return summary_of_fit, summary_of_fit_dict
 
+
 def get_parameter_estimates(X, fitted_ols_model, add_intercept):
 
     terms = fitted_ols_model.params.index.to_list()
@@ -220,6 +226,7 @@ def get_parameter_estimates(X, fitted_ols_model, add_intercept):
     parameter_estimates = pd.DataFrame(parameter_estimates_dict)
 
     return parameter_estimates, parameter_estimates_dict
+
 
 def beautify_parameter_estimates(parameter_estimates):
     def reformat_p_values(pvalue):
@@ -315,6 +322,7 @@ def beautify_parameter_estimates(parameter_estimates):
     )
     return s
 
+
 def wls_regression(
     y,
     X,
@@ -371,6 +379,7 @@ def wls_regression(
     if return_data:
         return results, fitted_wls_model
 
+
 def ols_regression(
     y,
     X,
@@ -381,179 +390,216 @@ def ols_regression(
     display_diagnostic_plots=True,
     display_leverage_plots=False,
     display_marginal_model_plots=False,
-    return_data=False
+    return_data=False,
 ):
     y = y.copy()
     X = X.copy()
-    
-    fitted_ols_model = ols_model_fit(X,y, add_intercept=add_intercept)
+
+    fitted_ols_model = ols_model_fit(X, y, add_intercept=add_intercept)
     results = get_results(y, fitted_ols_model)
-    yhat = results['yhat']
-    residuals = results['residuals']
-    studentized_residuals = results['studentized_residuals']
-    cooks_distance = results['cooks_distance']
-    
+    yhat = results["yhat"]
+    residuals = results["residuals"]
+    studentized_residuals = results["studentized_residuals"]
+    cooks_distance = results["cooks_distance"]
+
     if display_summary_of_fit:
-        summary_of_fit = get_summary_of_fit(X,y,fitted_ols_model, add_intercept=add_intercept)[0]
+        summary_of_fit = get_summary_of_fit(
+            X, y, fitted_ols_model, add_intercept=add_intercept
+        )[0]
         display(beautify_summary_of_fit(summary_of_fit))
-                
+
     if display_analysis_of_variance:
-        analysis_of_variance=get_anova(fitted_ols_model)[0]
+        analysis_of_variance = get_anova(fitted_ols_model)[0]
         display(beautify_analysis_of_variance(analysis_of_variance))
-        
+
     if display_parameter_estimates:
-        parameter_estimates = get_parameter_estimates(X,fitted_ols_model, add_intercept=add_intercept)[0]
+        parameter_estimates = get_parameter_estimates(
+            X, fitted_ols_model, add_intercept=add_intercept
+        )[0]
         display(beautify_parameter_estimates(parameter_estimates))
-        
+
     if display_diagnostic_plots:
         make_diagnostic_plots(y, fitted_ols_model)
-    
+
     if display_marginal_model_plots:
-        #marginal_model_plots(results,X, show_actuals = True, show_predicteds = True, smoothness = 0.5)
+        # marginal_model_plots(results,X, show_actuals = True, show_predicteds = True, smoothness = 0.5)
         marginal_model_plots(y, yhat, X)
     if display_leverage_plots:
         make_leverage_plots(fitted_ols_model)
-        
+
     if return_data:
         return results, fitted_ols_model
 
-def ols_model_fit(X,y, add_intercept=True):
-    
-    X = sm.add_constant(X) if add_intercept==True else X
+
+def ols_model_fit(X, y, add_intercept=True):
+
+    X = sm.add_constant(X) if add_intercept == True else X
     fitted_ols_model = sm.OLS(y, X).fit()
-    
+
     return fitted_ols_model
+
 
 def get_results(y, fitted_ols_model):
 
-    influence = fitted_ols_model.get_influence()                        
+    influence = fitted_ols_model.get_influence()
     results = pd.DataFrame()
-    results['y'] = y                                                         # target variable
-    results['yhat'] = fitted_ols_model.predict()                             # predictions
-    results['residuals'] = results['y']-results['yhat']                      # residuals
-    results['studentized_residuals'] = influence.resid_studentized_external  # studentized residuals
-    results['cooks_distance']= influence.cooks_distance[0]                   # cook's distance
+    results["y"] = y  # target variable
+    results["yhat"] = fitted_ols_model.predict()  # predictions
+    results["residuals"] = results["y"] - results["yhat"]  # residuals
+    results[
+        "studentized_residuals"
+    ] = influence.resid_studentized_external  # studentized residuals
+    results["cooks_distance"] = influence.cooks_distance[0]  # cook's distance
+
 
 def get_anova(fitted_ols_model):
-    
-    model_mse = round(fitted_ols_model.mse_model,3)
-    resid_mse = round(fitted_ols_model.mse_resid,3)
-    total_mse = round(fitted_ols_model.mse_total,3)
+
+    model_mse = round(fitted_ols_model.mse_model, 3)
+    resid_mse = round(fitted_ols_model.mse_resid, 3)
+    total_mse = round(fitted_ols_model.mse_total, 3)
 
     model_df = int(fitted_ols_model.df_model)
     resid_df = int(fitted_ols_model.df_resid)
-    total_df = int(model_df+resid_df)
+    total_df = int(model_df + resid_df)
 
-    model_ss = round(model_mse*model_df,3)
-    error_ss = round(resid_mse*resid_df,3)
-    total_ss = round(total_mse*total_df,3)
+    model_ss = round(model_mse * model_df, 3)
+    error_ss = round(resid_mse * resid_df, 3)
+    total_ss = round(total_mse * total_df, 3)
 
-    f_ratio = round(fitted_ols_model.fvalue,4)
-    prob_f = round(fitted_ols_model.f_pvalue,4)
+    f_ratio = round(fitted_ols_model.fvalue, 4)
+    prob_f = round(fitted_ols_model.f_pvalue, 4)
 
-    source = ['Model','Error','C.Total']
+    source = ["Model", "Error", "C.Total"]
     df = [model_df, resid_df, total_df]
     ss = [model_ss, error_ss, total_ss]
-    ms = [model_ss, error_ss, '']
-    fr = [f_ratio, 'Prob > F', prob_f]
+    ms = [model_ss, error_ss, ""]
+    fr = [f_ratio, "Prob > F", prob_f]
 
     analysis_of_variance_dict = {
-        'Source':source,
-        'Deg of Freedom':df,
-        'Sum of Squares':ss,
-        'Mean Square':ms,
-        'F Ratio':fr
+        "Source": source,
+        "Deg of Freedom": df,
+        "Sum of Squares": ss,
+        "Mean Square": ms,
+        "F Ratio": fr,
     }
+
+
 def make_diagnostic_plots(y, fitted_ols_model):
-    
+
     results = get_results(y, fitted_ols_model)
 
     title = pd.DataFrame()
-    s = title.style.set_properties(**{'text-align': 'left'})
-    s = s.set_caption('Diagnostic Plots').set_table_styles([
-        {
-        'selector': 'caption',
-        'props': [('color', 'darkorange'),('font-size', '18px'),('font-weight:','bold')]
-        }
-    ])
+    s = title.style.set_properties(**{"text-align": "left"})
+    s = s.set_caption("Diagnostic Plots").set_table_styles(
+        [
+            {
+                "selector": "caption",
+                "props": [
+                    ("color", "darkorange"),
+                    ("font-size", "18px"),
+                    ("font-weight:", "bold"),
+                ],
+            }
+        ]
+    )
     display(s)
 
-    with plt.style.context('ggplot'):
+    with plt.style.context("ggplot"):
 
-        fig = plt.figure(figsize = (8,7), dpi=200)
-        #fig.suptitle('Diagnostic Plots', color = 'orange', fontsize=16, horizontalalignment = 'center')
-        
+        fig = plt.figure(figsize=(8, 7), dpi=200)
+        # fig.suptitle('Diagnostic Plots', color = 'orange', fontsize=16, horizontalalignment = 'center')
+
         ax1 = plt.subplot2grid((4, 4), (0, 0), rowspan=2, colspan=2)
         ax2 = plt.subplot2grid((4, 4), (0, 2), rowspan=2, colspan=2)
         ax3 = plt.subplot2grid((4, 4), (2, 0), rowspan=2, colspan=3)
         ax4 = plt.subplot2grid((4, 4), (2, 3), rowspan=2, colspan=1)
 
-        fmt = '{x:,.0f}'
+        fmt = "{x:,.0f}"
         tick = mpl.ticker.StrMethodFormatter(fmt)
-        residuals_limit = max(min(results.studentized_residuals), max(results.studentized_residuals))
+        residuals_limit = max(
+            min(results.studentized_residuals), max(results.studentized_residuals)
+        )
 
-        ax1.set_title('\nActual by Predicted Plot\n\n',fontsize = 10, color = 'darkorange')
-        ax1.scatter(results.yhat, 
-                    results.y, 
-                    s = 20, 
-                    color = 'black', 
-                    facecolors='burlywood', 
-                    edgecolors='black', 
-                    marker = 'o')
-        ax1.plot(results.yhat, results.yhat, color = 'r', linewidth = 0.80)
-        ax1.ticklabel_format(useOffset=False, style='plain')
-        ax1.yaxis.set_major_formatter(tick) 
-        ax1.xaxis.set_major_formatter(tick) 
-        ax1.set_xlabel('Predicted',fontsize = 10)
-        ax1.set_ylabel('Actual',fontsize = 10)
-        ax1.tick_params(axis='x', rotation=35)
+        ax1.set_title("\nActual by Predicted Plot\n\n", fontsize=10, color="darkorange")
+        ax1.scatter(
+            results.yhat,
+            results.y,
+            s=20,
+            color="black",
+            facecolors="burlywood",
+            edgecolors="black",
+            marker="o",
+        )
+        ax1.plot(results.yhat, results.yhat, color="r", linewidth=0.80)
+        ax1.ticklabel_format(useOffset=False, style="plain")
+        ax1.yaxis.set_major_formatter(tick)
+        ax1.xaxis.set_major_formatter(tick)
+        ax1.set_xlabel("Predicted", fontsize=10)
+        ax1.set_ylabel("Actual", fontsize=10)
+        ax1.tick_params(axis="x", rotation=35)
 
-        ax2.set_title("\nStudentized Residuals vs.\n Cook's Distance\n", fontsize = 10, color = 'darkorange')
-        ax2.scatter(results.cooks_distance, 
-                    results.studentized_residuals, 
-                    s = 10, 
-                    color = 'black', 
-                    facecolors='lightblue', 
-                    edgecolors='black', 
-                    marker = 'o')
-        ax2.axvline(x=0.5, color = 'salmon', linestyle = '--', label = "Cook's D = 0.5", linewidth = 1.5)
-        ax2.axvline(x=1.0, color = 'salmon', linestyle = '-', label = "Cook's D = 1.0", linewidth = 1.5)
-        ax2.set_xlabel("Cook's Distance",fontsize = 10)
-        ax2.set_ylabel('\nStudentized Residuals',fontsize = 10)
-        ax2.set_ylim(-residuals_limit*1.10, residuals_limit*1.10)
+        ax2.set_title(
+            "\nStudentized Residuals vs.\n Cook's Distance\n",
+            fontsize=10,
+            color="darkorange",
+        )
+        ax2.scatter(
+            results.cooks_distance,
+            results.studentized_residuals,
+            s=10,
+            color="black",
+            facecolors="lightblue",
+            edgecolors="black",
+            marker="o",
+        )
+        ax2.axvline(
+            x=0.5, color="salmon", linestyle="--", label="Cook's D = 0.5", linewidth=1.5
+        )
+        ax2.axvline(
+            x=1.0, color="salmon", linestyle="-", label="Cook's D = 1.0", linewidth=1.5
+        )
+        ax2.set_xlabel("Cook's Distance", fontsize=10)
+        ax2.set_ylabel("\nStudentized Residuals", fontsize=10)
+        ax2.set_ylim(-residuals_limit * 1.10, residuals_limit * 1.10)
         ax2.set_xlim(-0.25, 3)
-        ax2.tick_params(axis='x', rotation=35)
-        ax2.legend(loc = 5)
+        ax2.tick_params(axis="x", rotation=35)
+        ax2.legend(loc=5)
 
-        ax3.set_title('\nStudentized Residuals vs. \nPredicted\n',fontsize = 10, color = 'darkorange')
-        ax3.scatter(results.yhat, 
-                    results.studentized_residuals, 
-                    s = 10, 
-                    color = 'black', 
-                    facecolors='lightblue', 
-                    edgecolors='black', 
-                    marker = 'o')
-        ax3.axhline(y=0, color = 'salmon', linestyle = '--', label = 'Zero Line')
-        ax3.xaxis.set_major_formatter(tick) 
-        ax3.set_xlabel('Predicted',fontsize = 10)
-        ax3.set_ylabel('\nStudentized Residuals',fontsize = 10)
-        ax3.set_ylim(-residuals_limit*1.10, residuals_limit*1.10)
-        ax3.tick_params(axis='x', rotation=35)
-        ax3.legend(loc = 2)
+        ax3.set_title(
+            "\nStudentized Residuals vs. \nPredicted\n", fontsize=10, color="darkorange"
+        )
+        ax3.scatter(
+            results.yhat,
+            results.studentized_residuals,
+            s=10,
+            color="black",
+            facecolors="lightblue",
+            edgecolors="black",
+            marker="o",
+        )
+        ax3.axhline(y=0, color="salmon", linestyle="--", label="Zero Line")
+        ax3.xaxis.set_major_formatter(tick)
+        ax3.set_xlabel("Predicted", fontsize=10)
+        ax3.set_ylabel("\nStudentized Residuals", fontsize=10)
+        ax3.set_ylim(-residuals_limit * 1.10, residuals_limit * 1.10)
+        ax3.tick_params(axis="x", rotation=35)
+        ax3.legend(loc=2)
 
-        ax4.set_title('Distribution\n\n', fontsize = 10, color = 'darkorange')
-        ax4.hist(results.studentized_residuals, 
-                 histtype='stepfilled', 
-                 color = 'burlywood', 
-                 alpha = 0.5, 
-                 edgecolor='black', 
-                 linewidth = 1, 
-                 bins = 20, 
-                 orientation = 'horizontal')
-        ax4.axhline(y=0, color = 'salmon', linestyle = '--')
-        ax4.xaxis.set_major_formatter(tick) 
-        ax4.set_ylim(-residuals_limit*1.10, residuals_limit*1.10)
-        ax4.tick_params(axis='x')
+        ax4.set_title("Distribution\n\n", fontsize=10, color="darkorange")
+        ax4.hist(
+            results.studentized_residuals,
+            histtype="stepfilled",
+            color="burlywood",
+            alpha=0.5,
+            edgecolor="black",
+            linewidth=1,
+            bins=20,
+            orientation="horizontal",
+        )
+        ax4.axhline(y=0, color="salmon", linestyle="--")
+        ax4.xaxis.set_major_formatter(tick)
+        ax4.set_ylim(-residuals_limit * 1.10, residuals_limit * 1.10)
+        ax4.tick_params(axis="x")
 
         plt.tight_layout()
         plt.show()

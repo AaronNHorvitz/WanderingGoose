@@ -34,7 +34,7 @@ def all_possible_models(
         w = X["weight"]
         X = X.drop(columns="weight")
 
-    def find_num_models(total_cols, max_cols, min_cols:int=1):
+    def find_num_models(total_cols, max_cols, min_cols: int = 1):
 
         """
         Takes the maximum number of columns and the minimum number of columns and returns

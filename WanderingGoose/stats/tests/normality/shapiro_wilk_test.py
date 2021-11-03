@@ -2,7 +2,8 @@ import numpy as np
 
 from scipy.stats import shapiro
 
-def shapiro_wilk_test(data, alpha:float = 0.5, print_result:bool=False):
+
+def shapiro_wilk_test(data, alpha: float = 0.5, print_result: bool = False):
     """
     This function conducts a Shapiro-Wilk Test for normality on a data series.
 
@@ -28,16 +29,18 @@ def shapiro_wilk_test(data, alpha:float = 0.5, print_result:bool=False):
     # Interpret
     if p_value > alpha:
 
-        result = ' > alpha = {:0.5f}'.format(alpha)
-        conclusion = "Gaussian (Don't reject H{})".format('\u2092') 
+        result = " > alpha = {:0.5f}".format(alpha)
+        conclusion = "Gaussian (Don't reject H{})".format("\u2092")
 
     else:
-        result = ' < alpha = {:0.5f}'.format(alpha)
-        conclusion = "Not Gaussian (Reject H{})".format('\u2092') 
+        result = " < alpha = {:0.5f}".format(alpha)
+        conclusion = "Not Gaussian (Reject H{})".format("\u2092")
 
-    result_string = 'W statistic = {:0.5f}\np = {:0.5f}{}\n{}'.format(w_statistic, p_value, result, conclusion)
-    
+    result_string = "W statistic = {:0.5f}\np = {:0.5f}{}\n{}".format(
+        w_statistic, p_value, result, conclusion
+    )
+
     if print_result:
         print(result_string)
-    
+
     return result_string

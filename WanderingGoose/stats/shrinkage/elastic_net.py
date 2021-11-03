@@ -7,13 +7,13 @@ from sklearn.feature_selection import SelectFromModel
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-from sklearn.linear_model import ElasticNetCV
+from sklearn.linear_model import ElasticNetCV, LinearRegression
 
 from WanderingGoose.stats.regression.least_squares import ols_regression
 
 def enet_selector(X,y,test_size = 0.40, random_state = 42):
     
-    # perform the lasso using SelectFromModel with the esimator equal to LassoCV
+    # perform the ElasticNet using SelectFromModel with the esimator equal to ElasticNetCV
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.40, random_state=42)
 
@@ -29,19 +29,25 @@ def enet_selector(X,y,test_size = 0.40, random_state = 42):
     # put features in a list and display results
     enet_features_list = enet_features.feature.to_list()
 
-
-    print('\n---TRAIN SET-----\n\n')
+    print("\n---TRAIN SET-----\n\n")
     ols_regression(
-        y = y_train,
-        X = X_train[enet_features_list],
+        y=y_train,
+        X=X_train[enet_features_list],
         add_intercept=True,
         display_summary_of_fit=True,
         display_analysis_of_variance=True,
         display_parameter_estimates=True,
         display_diagnostic_plots=True,
         display_leverage_plots=False,
-        display_marginal_model_plots=False,
-        return_data=False)
+        display_marginal_model_plots=True,
+        return_data=False,
+    )
+
+    # check accuracy on the test set
+    lr = LinearRegression().fit(X_train, y_train)
+    yhat = lr.predict(X_test)
+    results = pd.DataFrame({"y": y_test, "yhat": yhat})
+    results["residuals"] = results.y - results.yhat
 
     with plt.style.context('ggplot'):
 

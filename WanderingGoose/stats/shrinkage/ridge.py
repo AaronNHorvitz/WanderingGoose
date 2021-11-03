@@ -11,17 +11,15 @@ from WanderingGoose.stats.regression.least_squares import ols_regression
 
 def ridge_selector(X, y, test_size=0.40, random_state=42):
 
+    # Perform the Ridge using SelectFromModel with the esimator equal to RidgeCV
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.40, random_state=42
     )
-
     ridge_selector = SelectFromModel(estimator=RidgeCV()).fit(X_train, y_train)
-
     ridge_features = pd.DataFrame()
     ridge_features["feature"] = X_train.columns
     ridge_features["selected"] = ridge_selector.get_support()
     ridge_features["coeff"] = ridge_selector.estimator_.coef_
-
     ridge_features = ridge_features.loc[ridge_features["selected"] == True].drop(
         columns=["selected"]
     )

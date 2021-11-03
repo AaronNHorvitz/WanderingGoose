@@ -1,3 +1,14 @@
+import numpy as np
+import pandas as pd
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from sklearn.model_selection import train_test_split
+from sklearn.feature_selection import SelectFromModel
+from sklearn.linear_model import RidgeCV, LinearRegression
+
+from WanderingGoose.stats.regression.least_squares import ols_regression
+
 def ridge_selector(X, y, test_size=0.40, random_state=42):
 
     X_train, X_test, y_train, y_test = train_test_split(
@@ -49,7 +60,7 @@ def ridge_selector(X, y, test_size=0.40, random_state=42):
         ax2 = plt.subplot2grid((40, 10), (20, 0), rowspan=14, colspan=8)
 
         fmt = "{x:,.0f}"
-        tick = ticker.StrMethodFormatter(fmt)
+        tick = mpl.ticker.StrMethodFormatter(fmt)
         residuals_limit = max(min(results), max(results))
 
         ax1.set_title(

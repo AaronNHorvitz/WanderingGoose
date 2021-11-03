@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 from statsmodels.tsa.stattools import kpss
 
 def kpps_test(y:pd.Series, significance:str = '5%', test_around_trend = 'c')->bool:

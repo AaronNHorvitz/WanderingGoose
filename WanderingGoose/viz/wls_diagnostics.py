@@ -3,14 +3,16 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from IPython.display import display
 
-from WanderingGoose.stats.regression.least_squares import get_wls_results
 
+def make_wls_diagnostic_plots(results: pd.DataFrame):
+    '''
+    Make Weighted Least Squares diagnostic plots
 
-def make_wls_diagnostic_plots(y, wls_model, fitted_wls_model):
-    # TODO: maybe it would be better to pass the `get_wls_results()` return value directly into the function
-
-    results = get_wls_results(y, wls_model, fitted_wls_model)
-
+    Params
+    ------
+    results : DataFrame
+        Results object created by calling `get_wls_results()`
+    '''
     title = pd.DataFrame()
     s = title.style.set_properties(**{"text-align": "left"})
     s = s.set_caption("Diagnostic Plots").set_table_styles(

@@ -6,7 +6,7 @@ import statsmodels.api as sm
 from IPython.display import display
 
 from WanderingGoose.stats.regression.least_squares import wls_regression
-
+from WanderingGoose.stats.tests.model_estimators import get_wls_metrics
 
 def get_fitted_wls_model(y, X, w, add_intercept=True):
 
@@ -14,21 +14,6 @@ def get_fitted_wls_model(y, X, w, add_intercept=True):
     fitted_wls_model = sm.WLS(y, X, weights=w).fit()
 
     return fitted_wls_model
-
-
-def get_wls_metrics(fitted_wls_model):
-
-    pvalues = fitted_wls_model.pvalues
-    llf = fitted_wls_model.llf
-    nobs = fitted_wls_model.nobs
-    df_modelwc = len(pvalues)
-    aic = fitted_wls_model.aic
-    bic = fitted_wls_model.bic
-    aicc = sm.tools.eval_measures.aicc(llf, nobs, df_modelwc)
-    rsquared_adj = fitted_wls_model.rsquared_adj
-
-    return aic, bic, aicc, rsquared_adj
-
 
 def forward_remove_next_feature(X, y, w, add_intercept=True):
 

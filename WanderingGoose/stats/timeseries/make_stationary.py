@@ -1,5 +1,6 @@
 import numpy as np
-from WanderingGoose.stats.tests.augmented_dickey_fuller_test import augmented_dickey_fuller_test
+
+from WanderingGoose.stats.tests.stationarity_randomwalk.augmented_dickey_fuller_test import augmented_dickey_fuller_test
 
 def make_stationary(y: pd.Series, look_back_window: int = 100, max_steps: int = 4, significance_level: str = '5%', print_test_results = True):
 

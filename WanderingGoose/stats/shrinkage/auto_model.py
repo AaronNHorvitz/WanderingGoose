@@ -7,7 +7,7 @@ from IPython.display import display
 from tqdm.notebook import tqdm_notebook as tqdm
 from sklearn.metrics import mean_squared_error
 
-from WanderingGoose.stats.tests.vifs import get_vifs
+from WanderingGoose.stats.tests.multicollinearity.vifs import get_vifs
 from WanderingGoose.stats.regression.least_squares import wls_regression
 
 

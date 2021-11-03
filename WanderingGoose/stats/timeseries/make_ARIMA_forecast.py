@@ -5,11 +5,12 @@ import statsmodels.api as sm
 
 def generate_ARIMA_forecast(
     y:pd.Series, 
-    params, 
-    forecast_length, 
-    lookback_window=100, 
-    allow_negative_values=True
-    ):
+    params:tuple, 
+    forecast_length:int, 
+    lookback_window:int=100, 
+    allow_negative_values:bool=True
+    )->np.array:
+
     """
     Generates a forecast of a given forecast_length based on the best parameters (p,d,q) to fit an ARIMA model with, the length
     of previous rows to train the ARIMA model on
@@ -21,11 +22,10 @@ def generate_ARIMA_forecast(
     forecast_length (int) - length of time to forecast to
     lookback_window (int) - a slice back from the most recent row, going back the given number of rows to train the model on
     allow_negative_values (bool) - If negative values are allowed then True.
-    
+
     Returns
     -------
-    Forecast
-    
+    Forecast - Numnpy array of the length of the ``forecast_length``. 
     """
 
     # Slice initial values back to the lookback window

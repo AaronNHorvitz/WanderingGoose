@@ -356,7 +356,8 @@ def wls_regression(
         display(parameters_beautified)
 
     if display_diagnostic_plots:
-        make_wls_diagnostic_plots(y, wls_model, fitted_wls_model)
+        results = get_wls_results(y, wls_model, fitted_wls_model)
+        make_wls_diagnostic_plots(results)
 
     if display_marginal_model_plots:
         # marginal_model_plots(results,X, show_actuals = True, show_predicteds = True, smoothness = 0.5)

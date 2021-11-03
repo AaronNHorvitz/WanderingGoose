@@ -26,7 +26,7 @@ def forward_remove_next_feature(X, y, w, add_intercept=True):
     return sig_prob, remove_feature
 
 
-def backwards_selection(y, X, w=None, stopping_rule="BIC"):
+def backwards_linear_selection(y, X, w=None, stopping_rule="BIC"):
 
     if w == None:
         w = 1

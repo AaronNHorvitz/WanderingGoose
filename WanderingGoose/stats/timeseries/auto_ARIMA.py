@@ -1,6 +1,7 @@
 import numpy as np
 
 from WanderingGoose.stats.tests.augmented_dickey_fuller_test import augmented_dickey_fuller_test
+from WanderingGoose.stats.tests.ARIMA_testing import test_ARIMA
 
 def auto_ARIMA(
     y:pd.Series,  

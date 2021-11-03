@@ -6,7 +6,7 @@ from sklearn.metrics import mean_squared_error
 import statsmodels.api as sm
 
 from WanderingGoose.stats.tests.multicollinearity.vifs import get_vifs
-from WanderingGoose.viz.wls_diagnostics import make_wls_diagnostic_plots
+from WanderingGoose.viz.diagnostic.wls_diagnostics import make_wls_diagnostic_plots    
 from WanderingGoose.viz.diagnostic.marginal_model import marginal_model_plots
 from WanderingGoose.viz.diagnostic.leverage import make_leverage_plots
 

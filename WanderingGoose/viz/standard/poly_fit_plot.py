@@ -73,7 +73,7 @@ def poly_fit_plot(
         ax.set_title(f'{title}\n')
 
     else: 
-        ax.set_title('Poly Fit Plot\n')
+        ax.set_title(f'Poly Fit Plot (Deg = {deg})\n')
 
     # Add X and Y labels
     if y_label:

@@ -50,7 +50,7 @@ def linear_fit_plot(
 
     # Confidence Limits
     if show_confidence_limits:
-        ax.fill_between(x, lower_conf, upper_conf, alpha=0.5, label = '95% Confidence Limits', color = 'steelblue')
+        ax.fill_between(x, lower_conf, upper_conf, alpha=0.2, label = '95% Confidence Limits', color = 'steelblue')
 
     # Some styles only make sense if the number of points to plot
     # are below certain thresholds...
@@ -81,7 +81,7 @@ def linear_fit_plot(
         ax.set_ylabel(f'{y_label}\n')
 
     else:
-        ax.set_ylable('Y - Values\n')
+        ax.set_ylabel('Y - Values\n')
 
     if x_label:
         ax.set_xlabel(f'{x_label}\n')

@@ -73,14 +73,14 @@ def poly_fit_plot(
         ax.set_title(f'{title}\n')
 
     else: 
-        ax.set_title('Linear Fit Plot\n')
+        ax.set_title('Poly Fit Plot\n')
 
     # Add X and Y labels
     if y_label:
         ax.set_ylabel(f'{y_label}\n')
 
     else:
-        ax.set_ylable('Y - Values\n')
+        ax.set_yabel('Y - Values\n')
 
     if x_label:
         ax.set_xlabel(f'{x_label}\n')

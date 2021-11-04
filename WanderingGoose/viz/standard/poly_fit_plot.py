@@ -80,7 +80,7 @@ def poly_fit_plot(
         ax.set_ylabel(f'{y_label}\n')
 
     else:
-        ax.set_yabel('Y - Values\n')
+        ax.set_ylabel('Y - Values\n')
 
     if x_label:
         ax.set_xlabel(f'{x_label}\n')

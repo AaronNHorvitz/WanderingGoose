@@ -71,7 +71,23 @@ def linear_fit_plot(
 
     # Add title
     if title:
-        ax.set_title(title)
+        ax.set_title(f'{title}\n')
+
+    else: 
+        ax.set_title('Linear Fit Plot\n')
+
+    # Add X and Y labels
+    if y_label:
+        ax.set_ylabel(f'{y_label}\n')
+
+    else:
+        ax.set_ylable('Y - Values\n')
+
+    if x_label:
+        ax.set_xlabel(f'{x_label}\n')
+
+    else:
+        ax.set_xlabel('\nX - Values')    
 
     # Add legend
     ax.legend(prop={'size': 10.5})

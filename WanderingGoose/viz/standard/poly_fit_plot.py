@@ -28,7 +28,7 @@ def poly_fit_plot(
 
     # Find Prediction Limits
     n = len(x)
-    dof = len(x)+len(y) - 2
+    dof = len(x)+len(y) - 2 # TODO: this depends on variable dependence / independence; check formula
     t = stats.t.ppf(1-0.025, df=dof)
     s_err = np.sum(np.power(y_err, 2))
     pred = t * np.sqrt((s_err/(n-2))*(1+1.0/n + (np.power((x-x.mean()),2) / ((np.sum(np.power(x,2))) - n*(np.power(x,2))))))

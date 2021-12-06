@@ -58,7 +58,7 @@ def auto_ARIMA(
         if adf_test_results == True:
             print(f"d = {d}")
             break
-
+    # TODO: Create an iterator instead of using a list for the p and q vals.
     p_vals = [
         0,
         1,

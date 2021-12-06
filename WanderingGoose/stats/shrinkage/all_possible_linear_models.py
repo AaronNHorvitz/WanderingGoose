@@ -11,7 +11,7 @@ from WanderingGoose.stats.tests.multicollinearity.vifs import get_vifs
 from WanderingGoose.stats.regression.least_squares import wls_regression
 
 
-def all_possible_models(
+def all_possible_linear_models(
     y,
     X,
     w=False,
@@ -27,8 +27,8 @@ def all_possible_models(
     # TODO: Add docstring
     min_cols = 1
     max_cols = len(X.columns)
-    # if w is false, then adjust the all models so it works like a an OLS, not a WLS
 
+    # if w is false, then adjust the all models so it works like a an OLS, not a WLS
     if w == False:
 
         X["weight"] = 1

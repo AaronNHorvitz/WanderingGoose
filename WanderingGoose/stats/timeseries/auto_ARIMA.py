@@ -1,6 +1,9 @@
-import numpy as np
+from itertools import product
 
-from WanderingGoose.stats.tests.augmented_dickey_fuller_test import (
+import numpy as np
+import pandas as pd
+
+from WanderingGoose.stats.tests.stationarity_randomwalk.augmented_dickey_fuller_test import (
     augmented_dickey_fuller_test,
 )
 from WanderingGoose.stats.tests.model_estimators.ARIMA_testing import test_ARIMA
@@ -58,114 +61,21 @@ def auto_ARIMA(
         if adf_test_results == True:
             print(f"d = {d}")
             break
-    # TODO: Create an iterator instead of using a list for the p and q vals.
-    p_vals = [
-        0,
-        1,
-        0,
-        1,
-        2,
-        0,
-        2,
-        1,
-        3,
-        0,
-        3,
-        1,
-        4,
-        0,
-        4,
-        1,
-        5,
-        0,
-        5,
-        1,
-        6,
-        0,
-        6,
-        1,
-        7,
-        0,
-        7,
-        1,
-        8,
-        0,
-        8,
-        1,
-        9,
-        0,
-        9,
-        1,
-        10,
-        0,
-        10,
-        11,
-        0,
-        11,
-        1,
-    ]
-    q_vals = [
-        0,
-        0,
-        1,
-        1,
-        0,
-        2,
-        1,
-        2,
-        0,
-        3,
-        1,
-        3,
-        0,
-        4,
-        1,
-        4,
-        0,
-        5,
-        1,
-        5,
-        0,
-        6,
-        1,
-        6,
-        0,
-        7,
-        1,
-        7,
-        0,
-        8,
-        1,
-        8,
-        0,
-        9,
-        1,
-        9,
-        0,
-        10,
-        1,
-        0,
-        11,
-        1,
-        11,
-    ]
+    
+    # Generate `p` and `q` grid
+    pq_range = np.arange(np.min(max_p_and_q, 12)) # capped at `max_p_and_q` or 12, whichever is smaller
+    pq_values = list(product(pq_range, pq_range))
 
-    p_vals = p_vals[
-        0 : q_vals.index(max_p_and_q) + 1 :
-    ]  # select based on q_vals because the max val comes latest in the list
-    q_vals = q_vals[0 : q_vals.index(max_p_and_q) + 1 :]
-
-    # Account for max_p_and_q
+    # Test different `p` and `q` values
     test_results = []
-    for p, q in zip(p_vals, q_vals):
+    for p, q in pq_values:
         result = round(
             test_ARIMA(y, params=(p, d, q), penalty_criteria=penalty_criteria), 7
         )
         test_results.append(result)
         params = (p, d, q)
     index = test_results.index(min(test_results))
-    p = p_vals[index]
-    q = q_vals[index]
+    p, q = pq_values[index] # Get min `p`, `q` values
     params = (p, d, q)
 
     return params

@@ -24,6 +24,7 @@ def all_possible_models(
     screen_pvalues=True,
     screen_vifs=True,
 ):
+    # TODO: Add docstring
     min_cols = 1
     max_cols = len(X.columns)
     # if w is false, then adjust the all models so it works like a an OLS, not a WLS

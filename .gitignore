@@ -7,3 +7,8 @@ test.py
 
 # Ignore vscode local configuration (if used)
 .vscode/
+
+# Ignore jupyter notebook checkpoint folders
+.ipynb_checkpoints/
+
+

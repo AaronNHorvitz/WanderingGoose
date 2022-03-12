@@ -79,7 +79,10 @@ def weekly_seasonal_boxplots(df, figsize=(7,5), solo_plot=True, ax=None):
     """
     
     # Get Vals
-    day_name_vals = df['ds'].dt.day_name()
+    # Monkey Patch to handle Pandas version from 2017 that no one in their fucking right mind should be using!
+    day_name_vals=df[['ds']].apply(lambda x: dt.datetime.strftime(x['ds'], '%A'), axis=1)
+
+    #day_name_vals = df['ds'].dt.day_name()
     values = df['y']
     
     # Create DataFrame to Plot

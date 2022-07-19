@@ -63,7 +63,7 @@ def auto_ARIMA(
             break
     
     # Generate `p` and `q` grid
-    pq_range = np.arange(np.min(max_p_and_q, 12)) # capped at `max_p_and_q` or 12, whichever is smaller
+    pq_range = np.arange(np.minimum(max_p_and_q, 12)) # capped at `max_p_and_q` or 12, whichever is smaller
     pq_values = list(product(pq_range, pq_range))
 
     # Test different `p` and `q` values
